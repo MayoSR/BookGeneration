@@ -4,7 +4,7 @@ import re
 
 def create_episodes(data):
 
-    fp = open("episodes/all_episodes.txt","w")
+    fp = open("episodes/season1.txt","w")
     fp.writelines(data)
     fp.close()
 
@@ -30,6 +30,8 @@ season_dicts = {"s1":["0101","0124"],
 break_point = "401"
 episode_data = []
 for i in items:
+    if "0201" in i["href"]:
+        break
     episode_no = i["href"].split("/")[-1].replace("html","txt")
     req = Request(url+i["href"])
     episodes = urlopen(req)
@@ -38,6 +40,6 @@ for i in items:
     
     for j in text_elements:
         if len(striphtml(str(j)).replace("\n",""))>3:
-            episode_data.append(striphtml(str(j)).replace("\n","")+"\n")
+            episode_data.append(striphtml(str(j)).replace("\n"," ")+"\n")
 
 create_episodes(episode_data)
